@@ -96,6 +96,9 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\DeviceAPIController.cs" />
+    <Compile Include="Controllers\ProfileAPIController.cs" />
+    <Compile Include="Controllers\RecordActionAPIController.cs" />
+    <Compile Include="Controllers\RecordSituationAPIController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
