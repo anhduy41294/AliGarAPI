@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="AliGarDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ActionType">
+          <Key>
+            <PropertyRef Name="IdAction" />
+          </Key>
+          <Property Name="IdAction" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ActionName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Device">
+          <Key>
+            <PropertyRef Name="IdDevice" />
+          </Key>
+          <Property Name="IdDevice" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DeviceName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DeviceStatus" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Profile">
+          <Key>
+            <PropertyRef Name="IdProfile" />
+          </Key>
+          <Property Name="IdProfile" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProfileName" Type="nvarchar" MaxLength="50" />
+          <Property Name="TemperatureStandard" Type="float" Nullable="false" />
+          <Property Name="LightStandard" Type="float" Nullable="false" />
+          <Property Name="HumidityStandard" Type="float" Nullable="false" />
+          <Property Name="WaterDuration" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RecordAction">
+          <Key>
+            <PropertyRef Name="IdRecordAction" />
+          </Key>
+          <Property Name="IdRecordAction" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdAction" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Duration" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RecordSituation">
+          <Key>
+            <PropertyRef Name="IdRecordSituation" />
+          </Key>
+          <Property Name="IdRecordSituation" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RecordTime" Type="datetime" Nullable="false" />
+          <Property Name="Temperature" Type="float" Nullable="false" />
+          <Property Name="Light" Type="float" Nullable="false" />
+          <Property Name="Humidity" Type="float" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_RecordAction_ActionType">
+          <End Role="ActionType" Type="Self.ActionType" Multiplicity="1" />
+          <End Role="RecordAction" Type="Self.RecordAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ActionType">
+              <PropertyRef Name="IdAction" />
+            </Principal>
+            <Dependent Role="RecordAction">
+              <PropertyRef Name="IdAction" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AliGarDBModelStoreContainer">
+          <EntitySet Name="ActionType" EntityType="Self.ActionType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Device" EntityType="Self.Device" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Profile" EntityType="Self.Profile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RecordAction" EntityType="Self.RecordAction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RecordSituation" EntityType="Self.RecordSituation" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_RecordAction_ActionType" Association="Self.FK_RecordAction_ActionType">
+            <End Role="ActionType" EntitySet="ActionType" />
+            <End Role="RecordAction" EntitySet="RecordAction" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AliGarDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ActionType">
+          <Key>
+            <PropertyRef Name="IdAction" />
+          </Key>
+          <Property Name="IdAction" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ActionName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="RecordActions" Relationship="Self.FK_RecordAction_ActionType" FromRole="ActionType" ToRole="RecordAction" />
+        </EntityType>
+        <EntityType Name="Device">
+          <Key>
+            <PropertyRef Name="IdDevice" />
+          </Key>
+          <Property Name="IdDevice" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DeviceName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DeviceStatus" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Profile">
+          <Key>
+            <PropertyRef Name="IdProfile" />
+          </Key>
+          <Property Name="IdProfile" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProfileName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TemperatureStandard" Type="Double" Nullable="false" />
+          <Property Name="LightStandard" Type="Double" Nullable="false" />
+          <Property Name="HumidityStandard" Type="Double" Nullable="false" />
+          <Property Name="WaterDuration" Type="Double" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RecordAction">
+          <Key>
+            <PropertyRef Name="IdRecordAction" />
+          </Key>
+          <Property Name="IdRecordAction" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdAction" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Duration" Type="Double" Nullable="false" />
+          <NavigationProperty Name="ActionType" Relationship="Self.FK_RecordAction_ActionType" FromRole="RecordAction" ToRole="ActionType" />
+        </EntityType>
+        <EntityType Name="RecordSituation">
+          <Key>
+            <PropertyRef Name="IdRecordSituation" />
+          </Key>
+          <Property Name="IdRecordSituation" Type="Decimal" Precision="18" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RecordTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Temperature" Type="Double" Nullable="false" />
+          <Property Name="Light" Type="Double" Nullable="false" />
+          <Property Name="Humidity" Type="Double" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_RecordAction_ActionType">
+          <End Role="ActionType" Type="Self.ActionType" Multiplicity="1" />
+          <End Role="RecordAction" Type="Self.RecordAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ActionType">
+              <PropertyRef Name="IdAction" />
+            </Principal>
+            <Dependent Role="RecordAction">
+              <PropertyRef Name="IdAction" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AliGarDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ActionTypes" EntityType="Self.ActionType" />
+          <EntitySet Name="Devices" EntityType="Self.Device" />
+          <EntitySet Name="Profiles" EntityType="Self.Profile" />
+          <EntitySet Name="RecordActions" EntityType="Self.RecordAction" />
+          <EntitySet Name="RecordSituations" EntityType="Self.RecordSituation" />
+          <AssociationSet Name="FK_RecordAction_ActionType" Association="Self.FK_RecordAction_ActionType">
+            <End Role="ActionType" EntitySet="ActionTypes" />
+            <End Role="RecordAction" EntitySet="RecordActions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AliGarDBModelStoreContainer" CdmEntityContainer="AliGarDBEntities">
+          <EntitySetMapping Name="ActionTypes">
+            <EntityTypeMapping TypeName="AliGarDBModel.ActionType">
+              <MappingFragment StoreEntitySet="ActionType">
+                <ScalarProperty Name="IdAction" ColumnName="IdAction" />
+                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Devices">
+            <EntityTypeMapping TypeName="AliGarDBModel.Device">
+              <MappingFragment StoreEntitySet="Device">
+                <ScalarProperty Name="IdDevice" ColumnName="IdDevice" />
+                <ScalarProperty Name="DeviceName" ColumnName="DeviceName" />
+                <ScalarProperty Name="DeviceStatus" ColumnName="DeviceStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Profiles">
+            <EntityTypeMapping TypeName="AliGarDBModel.Profile">
+              <MappingFragment StoreEntitySet="Profile">
+                <ScalarProperty Name="IdProfile" ColumnName="IdProfile" />
+                <ScalarProperty Name="ProfileName" ColumnName="ProfileName" />
+                <ScalarProperty Name="TemperatureStandard" ColumnName="TemperatureStandard" />
+                <ScalarProperty Name="LightStandard" ColumnName="LightStandard" />
+                <ScalarProperty Name="HumidityStandard" ColumnName="HumidityStandard" />
+                <ScalarProperty Name="WaterDuration" ColumnName="WaterDuration" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RecordActions">
+            <EntityTypeMapping TypeName="AliGarDBModel.RecordAction">
+              <MappingFragment StoreEntitySet="RecordAction">
+                <ScalarProperty Name="IdRecordAction" ColumnName="IdRecordAction" />
+                <ScalarProperty Name="IdAction" ColumnName="IdAction" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RecordSituations">
+            <EntityTypeMapping TypeName="AliGarDBModel.RecordSituation">
+              <MappingFragment StoreEntitySet="RecordSituation">
+                <ScalarProperty Name="IdRecordSituation" ColumnName="IdRecordSituation" />
+                <ScalarProperty Name="RecordTime" ColumnName="RecordTime" />
+                <ScalarProperty Name="Temperature" ColumnName="Temperature" />
+                <ScalarProperty Name="Light" ColumnName="Light" />
+                <ScalarProperty Name="Humidity" ColumnName="Humidity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
