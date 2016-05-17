@@ -36,6 +36,20 @@ namespace AliGarAPI.Controllers
         }
 
         [HttpGet]
+        [Route("api/recordsituation/lastest")]
+        public HttpResponseMessage GetLastest()
+        {
+            using (QLAliGarEntities ctx = new QLAliGarEntities())
+            {
+                var list = ctx.RecordSituations.ToList();
+                DateTime m = list.Max(r => r.RecordTime);
+                RecordSituation recordsituation = ctx.RecordSituations.Where(r => r.RecordTime == m).FirstOrDefault();
+
+                return CreateResponse(HttpStatusCode.OK, recordsituation);
+            }
+        }
+
+        [HttpGet]
         [Route("api/recordsituation/detail")]
         public HttpResponseMessage Detail([FromUri]decimal id)
         {
