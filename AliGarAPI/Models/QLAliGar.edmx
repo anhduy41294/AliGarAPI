@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="QLAliGarModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="QLAliGarModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ActionType">
           <Key>
             <PropertyRef Name="IdAction" />
@@ -38,6 +38,7 @@
           <Property Name="IdRecordAction" Type="numeric" Precision="18" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdAction" Type="numeric" Precision="18" Scale="0" Nullable="false" />
           <Property Name="Duration" Type="float" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="RecordSituation">
           <Key>
@@ -48,6 +49,12 @@
           <Property Name="Temperature" Type="float" Nullable="false" />
           <Property Name="Light" Type="float" Nullable="false" />
           <Property Name="Humidity" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserMode">
+          <Key>
+            <PropertyRef Name="Mode" />
+          </Key>
+          <Property Name="Mode" Type="bit" Nullable="false" />
         </EntityType>
         <Association Name="FK_RecordAction_ActionType">
           <End Role="ActionType" Type="Self.ActionType" Multiplicity="1" />
@@ -67,13 +74,13 @@
           <EntitySet Name="Profile" EntityType="Self.Profile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RecordAction" EntityType="Self.RecordAction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RecordSituation" EntityType="Self.RecordSituation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserMode" EntityType="Self.UserMode" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_RecordAction_ActionType" Association="Self.FK_RecordAction_ActionType">
             <End Role="ActionType" EntitySet="ActionType" />
             <End Role="RecordAction" EntitySet="RecordAction" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="QLAliGarModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -112,6 +119,7 @@
           <Property Name="IdAction" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="Duration" Type="Double" Nullable="false" />
           <NavigationProperty Name="ActionType" Relationship="Self.FK_RecordAction_ActionType" FromRole="RecordAction" ToRole="ActionType" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="RecordSituation">
           <Key>
@@ -145,7 +153,14 @@
             <End Role="ActionType" EntitySet="ActionTypes" />
             <End Role="RecordAction" EntitySet="RecordActions" />
           </AssociationSet>
+          <EntitySet Name="UserModes" EntityType="QLAliGarModel.UserMode" />
         </EntityContainer>
+        <EntityType Name="UserMode">
+          <Key>
+            <PropertyRef Name="Mode" />
+          </Key>
+          <Property Name="Mode" Type="Boolean" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -184,6 +199,7 @@
           <EntitySetMapping Name="RecordActions">
             <EntityTypeMapping TypeName="QLAliGarModel.RecordAction">
               <MappingFragment StoreEntitySet="RecordAction">
+                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="IdRecordAction" ColumnName="IdRecordAction" />
                 <ScalarProperty Name="IdAction" ColumnName="IdAction" />
                 <ScalarProperty Name="Duration" ColumnName="Duration" />
@@ -198,6 +214,13 @@
                 <ScalarProperty Name="Temperature" ColumnName="Temperature" />
                 <ScalarProperty Name="Light" ColumnName="Light" />
                 <ScalarProperty Name="Humidity" ColumnName="Humidity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserModes">
+            <EntityTypeMapping TypeName="QLAliGarModel.UserMode">
+              <MappingFragment StoreEntitySet="UserMode">
+                <ScalarProperty Name="Mode" ColumnName="Mode" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

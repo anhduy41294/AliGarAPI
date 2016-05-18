@@ -12,13 +12,8 @@ namespace AliGarAPI.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class RecordAction
+    public partial class UserMode
     {
-        public decimal IdRecordAction { get; set; }
-        public decimal IdAction { get; set; }
-        public double Duration { get; set; }
-        public bool Status { get; set; }
-    
-        public virtual ActionType ActionType { get; set; }
+        public bool Mode { get; set; }
     }
 }

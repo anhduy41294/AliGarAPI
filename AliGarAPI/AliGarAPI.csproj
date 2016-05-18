@@ -38,6 +38,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.4.2.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -129,7 +132,11 @@
     <Compile Include="Models\RecordAction.cs">
       <DependentUpon>QLAliGar.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RecordActionModel.cs" />
     <Compile Include="Models\RecordSituation.cs">
+      <DependentUpon>QLAliGar.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserMode.cs">
       <DependentUpon>QLAliGar.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

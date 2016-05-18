@@ -10,5 +10,6 @@ namespace AliGarAPI.Models
         public decimal IdRecordAction { get; set; }
         public decimal IdAction { get; set; }
         public double Duration { get; set; }
+    
     }
 }

@@ -30,5 +30,6 @@ namespace AliGarAPI.Models
         public virtual DbSet<Profile> Profiles { get; set; }
         public virtual DbSet<RecordAction> RecordActions { get; set; }
         public virtual DbSet<RecordSituation> RecordSituations { get; set; }
+        public virtual DbSet<UserMode> UserModes { get; set; }
     }
 }
