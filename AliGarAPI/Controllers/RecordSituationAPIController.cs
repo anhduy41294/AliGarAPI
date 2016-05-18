@@ -101,7 +101,62 @@ namespace AliGarAPI.Controllers
                 {
                     ctx.RecordSituations.Add(newRecord);
                     int affected = ctx.SaveChanges();
-                    return CreateResponse(HttpStatusCode.OK, affected);
+                    
+                    ///Check Usermode
+                    var flag = ctx.UserModes.FirstOrDefault();
+                    if ( flag.Mode == true)
+                    {
+                        //Manual Mode
+                        return CreateResponse(HttpStatusCode.OK, affected);
+
+                    }else
+                    {
+                        //Auto Mode
+                        //Handle Action
+                        var profile = ctx.Profiles.Where(p => p.Status == true).FirstOrDefault();
+                        
+                        //Check Temperature
+                        if (newRecord.Temperature > profile.TemperatureStandard)
+                        {
+                            //Check Device Situation
+                            if (ctx.Devices.Where(p => p.IdDevice == 1).FirstOrDefault().DeviceStatus == false)
+                            {
+                                //Water Device is off
+                                RecordAction newAction = new RecordAction();
+                                newAction.IdAction = 1;
+                                newAction.Duration = profile.WaterDuration;
+                                newAction.Status = false;
+
+                                ctx.RecordActions.Add(newAction);
+                                ctx.SaveChanges();
+
+                                return CreateResponse(HttpStatusCode.OK, newAction);
+                            }
+                        }
+
+                        //Check Humidity
+                        if (newRecord.Humidity < profile.HumidityStandard)
+                        {
+                            //Check Device Situation
+                            if (ctx.Devices.Where(p => p.IdDevice == 1).FirstOrDefault().DeviceStatus == false)
+                            {
+                                //Water Device is off
+                                RecordAction newAction = new RecordAction();
+                                newAction.IdAction = 1;
+                                newAction.Duration = profile.WaterDuration;
+                                newAction.Status = false;
+
+                                ctx.RecordActions.Add(newAction);
+                                ctx.SaveChanges();
+
+                                return CreateResponse(HttpStatusCode.OK, newAction);
+                            }
+                        }
+
+                        //Handle Cover Device....
+
+                        return CreateResponse(HttpStatusCode.OK, 0);
+                    }
                 }
                 catch (Exception e)
                 {

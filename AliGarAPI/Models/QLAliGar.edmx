@@ -30,6 +30,7 @@
           <Property Name="LightStandard" Type="float" Nullable="false" />
           <Property Name="HumidityStandard" Type="float" Nullable="false" />
           <Property Name="WaterDuration" Type="float" Nullable="false" />
+          <Property Name="Status" Type="bit" />
         </EntityType>
         <EntityType Name="RecordAction">
           <Key>
@@ -110,6 +111,7 @@
           <Property Name="LightStandard" Type="Double" Nullable="false" />
           <Property Name="HumidityStandard" Type="Double" Nullable="false" />
           <Property Name="WaterDuration" Type="Double" Nullable="false" />
+          <Property Name="Status" Type="Boolean" />
         </EntityType>
         <EntityType Name="RecordAction">
           <Key>
@@ -187,6 +189,7 @@
           <EntitySetMapping Name="Profiles">
             <EntityTypeMapping TypeName="QLAliGarModel.Profile">
               <MappingFragment StoreEntitySet="Profile">
+                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="IdProfile" ColumnName="IdProfile" />
                 <ScalarProperty Name="ProfileName" ColumnName="ProfileName" />
                 <ScalarProperty Name="TemperatureStandard" ColumnName="TemperatureStandard" />

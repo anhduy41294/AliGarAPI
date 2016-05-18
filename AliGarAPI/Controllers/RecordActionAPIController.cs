@@ -96,9 +96,38 @@ namespace AliGarAPI.Controllers
                     ctx.RecordActions.Add(newRecord);
                     int affected = ctx.SaveChanges();
 
-                    //Notify new food for every user online
-                    //var myHubContext = GlobalHost.ConnectionManager.GetHubContext<CentralHub>();
-                    //myHubContext.Clients.All.notifyNewBiQuyet(newBiquyet.TENBIQUYET, newBiquyet.IDBiQuyet);
+                    switch ((int)newRecord.IdAction)
+                    {
+                        case 1:
+                            {
+                                var editDevice = ctx.Devices.Where(p => p.IdDevice == 1).FirstOrDefault();
+                                editDevice.DeviceStatus = true;
+                                ctx.SaveChanges();
+                                return CreateResponse(HttpStatusCode.OK, editDevice);
+                                
+                            }
+                        case 2:
+                            {
+                                var editDevice = ctx.Devices.Where(p => p.IdDevice == 1).FirstOrDefault();
+                                editDevice.DeviceStatus = false;
+                                ctx.SaveChanges();
+                                return CreateResponse(HttpStatusCode.OK, editDevice);
+                            }
+                        case 3:
+                            {
+                                var editDevice = ctx.Devices.Where(p => p.IdDevice == 2).FirstOrDefault();
+                                editDevice.DeviceStatus = true;
+                                ctx.SaveChanges();
+                                return CreateResponse(HttpStatusCode.OK, editDevice);
+                            }
+                        case 4:
+                            {
+                                var editDevice = ctx.Devices.Where(p => p.IdDevice == 2).FirstOrDefault();
+                                editDevice.DeviceStatus = false;
+                                ctx.SaveChanges();
+                                return CreateResponse(HttpStatusCode.OK, editDevice);
+                            }
+                    }
 
                     return CreateResponse(HttpStatusCode.OK, affected);
                 }

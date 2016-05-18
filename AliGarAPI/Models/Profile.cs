@@ -20,5 +20,6 @@ namespace AliGarAPI.Models
         public double LightStandard { get; set; }
         public double HumidityStandard { get; set; }
         public double WaterDuration { get; set; }
+        public Nullable<bool> Status { get; set; }
     }
 }
