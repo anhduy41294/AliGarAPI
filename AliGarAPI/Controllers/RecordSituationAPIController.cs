@@ -5,7 +5,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-
+using Microsoft.AspNet.SignalR;
+using AliGarAPI.HubCentral;
 namespace AliGarAPI.Controllers
 {
     public class RecordSituationAPIController : ApiController
@@ -30,6 +31,9 @@ namespace AliGarAPI.Controllers
             using (QLAliGarEntities ctx = new QLAliGarEntities())
             {
                 var list = ctx.RecordSituations.ToList();
+
+                var myHubContext = GlobalHost.ConnectionManager.GetHubContext<MyHub>();
+                myHubContext.Clients.All.notifyNew("Hello");
 
                 return CreateResponse(HttpStatusCode.OK, list);
             }
