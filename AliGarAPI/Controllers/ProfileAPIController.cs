@@ -116,7 +116,7 @@ namespace AliGarAPI.Controllers
                     profile.ProfileName = updatedProfile.ProfileName;
                     profile.TemperatureStandard = updatedProfile.TemperatureStandard;
                     profile.WaterDuration = updatedProfile.WaterDuration;
-
+                    profile.Status = updatedProfile.Status;
                     int affected = ctx.SaveChanges();
 
                     return CreateResponse(HttpStatusCode.OK, affected);

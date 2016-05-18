@@ -31,11 +31,12 @@ namespace AliGarAPI.Controllers
             using (QLAliGarEntities ctx = new QLAliGarEntities())
             {
                 List<RecordAction> list = ctx.RecordActions.ToList();
+
                 Mapper.CreateMap<RecordAction, RecordActionModel>();
 
                 List<RecordActionModel> ret = Mapper.Map<List<RecordAction>, List<RecordActionModel>>(list);
 
-                return CreateResponse(HttpStatusCode.OK, list);
+                return CreateResponse(HttpStatusCode.OK, ret);
             }
         }
 
