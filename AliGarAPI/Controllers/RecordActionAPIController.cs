@@ -139,5 +139,32 @@ namespace AliGarAPI.Controllers
 
             }
         }
+
+        [HttpGet]
+        [Route("api/recordaction/lastest")]
+        public HttpResponseMessage GetLastest()
+        {
+            using (QLAliGarEntities ctx = new QLAliGarEntities())
+            {
+                var list = ctx.RecordActions.ToList();
+
+                RecordAction record = ctx.RecordActions.Where(r => r.Status == false).FirstOrDefault();
+                if (record == null)
+                {
+                    return CreateResponse(HttpStatusCode.OK, "");
+                }
+
+                RecordActionModel rs;
+
+                Mapper.CreateMap<RecordAction, RecordActionModel>();
+
+                rs = Mapper.Map<RecordAction, RecordActionModel>(record);
+
+                record.Status = true;
+                ctx.SaveChanges();
+                
+                return CreateResponse(HttpStatusCode.OK, rs);
+            }
+        }
     }
 }
