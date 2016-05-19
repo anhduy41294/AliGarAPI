@@ -7,8 +7,10 @@ using System.Net.Http;
 using System.Web.Http;
 using Microsoft.AspNet.SignalR;
 using AliGarAPI.HubCentral;
+using System.Web.Http.Cors;
 namespace AliGarAPI.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class RecordSituationAPIController : ApiController
     {
         #region Helper
