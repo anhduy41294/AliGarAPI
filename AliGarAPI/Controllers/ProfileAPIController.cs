@@ -127,5 +127,48 @@ namespace AliGarAPI.Controllers
                 }
             }
         }
+
+        [HttpPost]
+        [Route("api/usermode/update")]
+        public HttpResponseMessage UpdateMode([FromBody]UserMode updatedUser)
+        {
+            using (QLAliGarEntities ctx = new QLAliGarEntities())
+            {
+                var mode = ctx.UserModes.FirstOrDefault();
+
+                if (mode == null)
+                {
+                    return CreateResponse(HttpStatusCode.BadRequest);
+                }
+                try
+                {
+                    mode.Mode = updatedUser.Mode;
+                    int affected = ctx.SaveChanges();
+
+                    return CreateResponse(HttpStatusCode.OK, affected);
+                }
+                catch (Exception e)
+                {
+                    return CreateResponse(HttpStatusCode.Conflict);
+                }
+            }
+        }
+
+        [HttpGet]
+        [Route("api/usermode/get")]
+        public HttpResponseMessage GetMode()
+        {
+            using (QLAliGarEntities ctx = new QLAliGarEntities())
+            {
+                var mode = ctx.UserModes.FirstOrDefault();
+
+                if (mode == null)
+                {
+                    return CreateResponse(HttpStatusCode.BadRequest);
+                }
+
+                return CreateResponse(HttpStatusCode.OK, mode.Mode);
+            }
+        }
     }
 }

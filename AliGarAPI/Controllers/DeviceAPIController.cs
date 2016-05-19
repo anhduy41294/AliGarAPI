@@ -1,4 +1,6 @@
-﻿using AliGarAPI.Models;
+﻿using AliGarAPI.HubCentral;
+using AliGarAPI.Models;
+using Microsoft.AspNet.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -116,6 +118,7 @@ namespace AliGarAPI.Controllers
 
                     int affected = ctx.SaveChanges();
 
+                    /*
                     //Check New Action
                     var newAction = ctx.RecordActions.Where(p => p.Status == false).FirstOrDefault();
 
@@ -159,7 +162,11 @@ namespace AliGarAPI.Controllers
                         ctx.SaveChanges();
 
                         return CreateResponse(HttpStatusCode.OK, newAction);
-                    }
+                    }*/
+
+                    //Notify Update Status device
+                    var myHubContext = GlobalHost.ConnectionManager.GetHubContext<MyHub>();
+                    myHubContext.Clients.All.notifyNewDeviceStatus(updatedDevice.IdDevice.ToString() + "=" + updatedDevice.DeviceStatus.ToString());
 
                     return CreateResponse(HttpStatusCode.OK, affected);
                 }

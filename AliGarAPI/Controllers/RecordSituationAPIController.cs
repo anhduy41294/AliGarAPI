@@ -123,20 +123,24 @@ namespace AliGarAPI.Controllers
                         //Auto Mode
                         //Handle Action
                         var profile = ctx.Profiles.Where(p => p.Status == true).FirstOrDefault();
-                        
+
+                        var deviceWater =ctx.Devices.Where(p => p.IdDevice == 1).FirstOrDefault()
+                        var deviceCover = ctx.Devices.Where(p => p.IdDevice == 2).FirstOrDefault();
+
                         //Check Temperature
                         if (newRecord.Temperature > profile.TemperatureStandard)
                         {
                             //Check Device Situation
-                            if (ctx.Devices.Where(p => p.IdDevice == 1).FirstOrDefault().DeviceStatus == false)
+                            if (deviceCover.DeviceStatus == false)
                             {
-                                //Water Device is off
+                                //Cover Device is off
                                 RecordAction newAction = new RecordAction();
-                                newAction.IdAction = 1;
-                                newAction.Duration = profile.WaterDuration;
+                                newAction.IdAction = 3;
+                                newAction.Duration = 0;
                                 newAction.Status = false;
 
                                 ctx.RecordActions.Add(newAction);
+                                deviceCover.DeviceStatus = true;
                                 ctx.SaveChanges();
 
                                 return CreateResponse(HttpStatusCode.OK, newAction);
@@ -156,13 +160,12 @@ namespace AliGarAPI.Controllers
                                 newAction.Status = false;
 
                                 ctx.RecordActions.Add(newAction);
+                                deviceWater.DeviceStatus = true;
                                 ctx.SaveChanges();
 
                                 return CreateResponse(HttpStatusCode.OK, newAction);
                             }
                         }
-
-                        //Handle Cover Device....
 
                         return CreateResponse(HttpStatusCode.OK, 0);
                     }*/
