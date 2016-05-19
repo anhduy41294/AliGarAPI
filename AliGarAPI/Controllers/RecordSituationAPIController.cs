@@ -48,6 +48,8 @@ namespace AliGarAPI.Controllers
             using (QLAliGarEntities ctx = new QLAliGarEntities())
             {
                 var list = ctx.RecordSituations.ToList();
+
+                //Find the record which has max date time
                 DateTime m = list.Max(r => r.RecordTime);
                 RecordSituation recordsituation = ctx.RecordSituations.Where(r => r.RecordTime == m).FirstOrDefault();
 
@@ -108,6 +110,7 @@ namespace AliGarAPI.Controllers
                     ctx.RecordSituations.Add(newRecord);
                     int affected = ctx.SaveChanges();
                     
+                    /*
                     ///Check Usermode
                     var flag = ctx.UserModes.FirstOrDefault();
                     if ( flag.Mode == true)
@@ -162,7 +165,12 @@ namespace AliGarAPI.Controllers
                         //Handle Cover Device....
 
                         return CreateResponse(HttpStatusCode.OK, 0);
-                    }
+                    }*/
+
+                    var myHubContext = GlobalHost.ConnectionManager.GetHubContext<MyHub>();
+                    myHubContext.Clients.All.notifyNewSituation(newRecord.Temperature.ToString()+ "="+ newRecord.Humidity.ToString());
+
+                    return CreateResponse(HttpStatusCode.OK, affected);
                 }
                 catch (Exception e)
                 {
