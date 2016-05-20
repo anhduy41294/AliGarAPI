@@ -118,7 +118,7 @@ namespace AliGarAPI.Controllers
                     if ( flag.Mode == true)
                     {
                         //Manual Mode
-                        return CreateResponse(HttpStatusCode.OK, affected);
+                        return CreateResponse(HttpStatusCode.OK, 0);
 
                     }else
                     {
@@ -175,7 +175,7 @@ namespace AliGarAPI.Controllers
                     var myHubContext = GlobalHost.ConnectionManager.GetHubContext<MyHub>();
                     myHubContext.Clients.All.notifyNewSituation(newRecord.Temperature.ToString()+ "="+ newRecord.Humidity.ToString());
 
-                    return CreateResponse(HttpStatusCode.OK, affected);
+                    return CreateResponse(HttpStatusCode.OK, 0);
                 }
                 catch (Exception e)
                 {

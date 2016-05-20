@@ -151,7 +151,7 @@ namespace AliGarAPI.Controllers
                 RecordAction record = ctx.RecordActions.Where(r => r.Status == false).FirstOrDefault();
                 if (record == null)
                 {
-                    return CreateResponse(HttpStatusCode.OK, "");
+                    return CreateResponse(HttpStatusCode.OK, 0);
                 }
 
                 RecordActionModel rs;
