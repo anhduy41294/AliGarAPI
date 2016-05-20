@@ -50,8 +50,8 @@ namespace AliGarAPI.Controllers
                 var list = ctx.RecordSituations.ToList();
 
                 //Find the record which has max date time
-                DateTime m = list.Max(r => r.RecordTime);
-                RecordSituation recordsituation = ctx.RecordSituations.Where(r => r.RecordTime == m).FirstOrDefault();
+                decimal m = list.Max(r => r.IdRecordSituation);
+                RecordSituation recordsituation = ctx.RecordSituations.Where(r => r.IdRecordSituation == m).FirstOrDefault();
 
                 return CreateResponse(HttpStatusCode.OK, recordsituation);
             }
