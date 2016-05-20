@@ -129,6 +129,37 @@ namespace AliGarAPI.Controllers
         }
 
         [HttpPost]
+        [Route("api/profile/change")]
+        public HttpResponseMessage Update([FromBody]int id)
+        {
+            using (QLAliGarEntities ctx = new QLAliGarEntities())
+            {
+                var profile = ctx.Profiles.Where(sv => sv.IdProfile == id).FirstOrDefault();
+                var list = ctx.Profiles.ToList();
+                foreach (Profile p in list)
+                {
+                    p.Status = false;
+                }
+
+                if (profile == null)
+                {
+                    return CreateResponse(HttpStatusCode.BadRequest);
+                }
+                try
+                {
+                    profile.Status = true;
+                    int affected = ctx.SaveChanges();
+
+                    return CreateResponse(HttpStatusCode.OK, affected);
+                }
+                catch (Exception e)
+                {
+                    return CreateResponse(HttpStatusCode.Conflict);
+                }
+            }
+        }
+
+        [HttpPost]
         [Route("api/usermode/update")]
         public HttpResponseMessage UpdateMode([FromBody]UserMode updatedUser)
         {

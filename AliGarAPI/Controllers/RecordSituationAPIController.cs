@@ -107,10 +107,12 @@ namespace AliGarAPI.Controllers
             {
                 try
                 {
+                    DateTime now = DateTime.Now;
+                    newRecord.RecordTime = now;
                     ctx.RecordSituations.Add(newRecord);
                     int affected = ctx.SaveChanges();
                     
-                    /*
+                    
                     ///Check Usermode
                     var flag = ctx.UserModes.FirstOrDefault();
                     if ( flag.Mode == true)
@@ -124,7 +126,7 @@ namespace AliGarAPI.Controllers
                         //Handle Action
                         var profile = ctx.Profiles.Where(p => p.Status == true).FirstOrDefault();
 
-                        var deviceWater =ctx.Devices.Where(p => p.IdDevice == 1).FirstOrDefault()
+                        var deviceWater = ctx.Devices.Where(p => p.IdDevice == 1).FirstOrDefault();
                         var deviceCover = ctx.Devices.Where(p => p.IdDevice == 2).FirstOrDefault();
 
                         //Check Temperature
@@ -168,7 +170,7 @@ namespace AliGarAPI.Controllers
                         }
 
                         return CreateResponse(HttpStatusCode.OK, 0);
-                    }*/
+                    }
 
                     var myHubContext = GlobalHost.ConnectionManager.GetHubContext<MyHub>();
                     myHubContext.Clients.All.notifyNewSituation(newRecord.Temperature.ToString()+ "="+ newRecord.Humidity.ToString());
