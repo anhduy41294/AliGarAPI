@@ -145,10 +145,13 @@ namespace AliGarAPI.Controllers
                                 newAction.Status = false;
 
                                 ctx.RecordActions.Add(newAction);
-                                deviceCover.DeviceStatus = true;
+                                deviceCover.DeviceStatus = false;
                                 ctx.SaveChanges();
 
-                                return CreateResponse(HttpStatusCode.OK, newAction);
+                                //Notify
+                                myHubContext.Clients.All.notifyNewDeviceStatus("2=1");
+
+                                return CreateResponse(HttpStatusCode.OK, 0);
                             }
                         }
 
@@ -156,7 +159,7 @@ namespace AliGarAPI.Controllers
                         if (newRecord.Humidity < profile.HumidityStandard)
                         {
                             //Check Device Situation
-                            if (ctx.Devices.Where(p => p.IdDevice == 1).FirstOrDefault().DeviceStatus == false)
+                            if (deviceWater.DeviceStatus == false)
                             {
                                 //Water Device is off
                                 RecordAction newAction = new RecordAction();
@@ -165,10 +168,12 @@ namespace AliGarAPI.Controllers
                                 newAction.Status = false;
 
                                 ctx.RecordActions.Add(newAction);
-                                deviceWater.DeviceStatus = true;
+                                deviceWater.DeviceStatus = false;
                                 ctx.SaveChanges();
 
-                                return CreateResponse(HttpStatusCode.OK, newAction);
+                                //Notify
+                                myHubContext.Clients.All.notifyNewDeviceStatus("1=1");
+                                return CreateResponse(HttpStatusCode.OK, 0);
                             }
                         }
 

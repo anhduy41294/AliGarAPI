@@ -1,5 +1,7 @@
-﻿using AliGarAPI.Models;
+﻿using AliGarAPI.HubCentral;
+using AliGarAPI.Models;
 using AutoMapper;
+using Microsoft.AspNet.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -96,6 +98,7 @@ namespace AliGarAPI.Controllers
                 {
                     ctx.RecordActions.Add(newRecord);
                     int affected = ctx.SaveChanges();
+                    var myHubContext = GlobalHost.ConnectionManager.GetHubContext<MyHub>();
 
                     switch ((int)newRecord.IdAction)
                     {
@@ -104,6 +107,7 @@ namespace AliGarAPI.Controllers
                                 var editDevice = ctx.Devices.Where(p => p.IdDevice == 1).FirstOrDefault();
                                 editDevice.DeviceStatus = true;
                                 ctx.SaveChanges();
+                                myHubContext.Clients.All.notifyNewDeviceStatus("1=1");
                                 return CreateResponse(HttpStatusCode.OK, editDevice);
                                 
                             }
@@ -112,6 +116,7 @@ namespace AliGarAPI.Controllers
                                 var editDevice = ctx.Devices.Where(p => p.IdDevice == 1).FirstOrDefault();
                                 editDevice.DeviceStatus = false;
                                 ctx.SaveChanges();
+                                myHubContext.Clients.All.notifyNewDeviceStatus("1=0");
                                 return CreateResponse(HttpStatusCode.OK, editDevice);
                             }
                         case 3:
@@ -119,6 +124,7 @@ namespace AliGarAPI.Controllers
                                 var editDevice = ctx.Devices.Where(p => p.IdDevice == 2).FirstOrDefault();
                                 editDevice.DeviceStatus = true;
                                 ctx.SaveChanges();
+                                myHubContext.Clients.All.notifyNewDeviceStatus("2=1");
                                 return CreateResponse(HttpStatusCode.OK, editDevice);
                             }
                         case 4:
@@ -126,6 +132,7 @@ namespace AliGarAPI.Controllers
                                 var editDevice = ctx.Devices.Where(p => p.IdDevice == 2).FirstOrDefault();
                                 editDevice.DeviceStatus = false;
                                 ctx.SaveChanges();
+                                myHubContext.Clients.All.notifyNewDeviceStatus("2=0");
                                 return CreateResponse(HttpStatusCode.OK, editDevice);
                             }
                     }
