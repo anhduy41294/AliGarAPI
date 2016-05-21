@@ -111,7 +111,10 @@ namespace AliGarAPI.Controllers
                     newRecord.RecordTime = now;
                     ctx.RecordSituations.Add(newRecord);
                     int affected = ctx.SaveChanges();
-                    
+
+                    var myHubContext = GlobalHost.ConnectionManager.GetHubContext<MyHub>();
+                    myHubContext.Clients.All.notifyNewSituation(newRecord.Temperature.ToString() + "=" + newRecord.Humidity.ToString());
+
                     
                     ///Check Usermode
                     var flag = ctx.UserModes.FirstOrDefault();
@@ -172,8 +175,6 @@ namespace AliGarAPI.Controllers
                         return CreateResponse(HttpStatusCode.OK, 0);
                     }
 
-                    var myHubContext = GlobalHost.ConnectionManager.GetHubContext<MyHub>();
-                    myHubContext.Clients.All.notifyNewSituation(newRecord.Temperature.ToString()+ "="+ newRecord.Humidity.ToString());
 
                     return CreateResponse(HttpStatusCode.OK, 0);
                 }
