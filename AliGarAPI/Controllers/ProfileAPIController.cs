@@ -198,7 +198,7 @@ namespace AliGarAPI.Controllers
                     return CreateResponse(HttpStatusCode.BadRequest);
                 }
 
-                return CreateResponse(HttpStatusCode.OK, mode.Mode);
+                return CreateResponse(HttpStatusCode.OK, mode);
             }
         }
     }

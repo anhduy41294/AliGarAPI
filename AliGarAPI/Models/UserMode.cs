@@ -14,6 +14,7 @@ namespace AliGarAPI.Models
     
     public partial class UserMode
     {
-        public bool Mode { get; set; }
+        public int IdMode { get; set; }
+        public Nullable<bool> Mode { get; set; }
     }
 }

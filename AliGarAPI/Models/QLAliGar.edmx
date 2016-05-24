@@ -53,9 +53,10 @@
         </EntityType>
         <EntityType Name="UserMode">
           <Key>
-            <PropertyRef Name="Mode" />
+            <PropertyRef Name="IdMode" />
           </Key>
-          <Property Name="Mode" Type="bit" Nullable="false" />
+          <Property Name="IdMode" Type="int" Nullable="false" />
+          <Property Name="Mode" Type="bit" />
         </EntityType>
         <Association Name="FK_RecordAction_ActionType">
           <End Role="ActionType" Type="Self.ActionType" Multiplicity="1" />
@@ -159,9 +160,10 @@
         </EntityContainer>
         <EntityType Name="UserMode">
           <Key>
-            <PropertyRef Name="Mode" />
+            <PropertyRef Name="IdMode" />
           </Key>
-          <Property Name="Mode" Type="Boolean" Nullable="false" />
+          <Property Name="IdMode" Type="Int32" Nullable="false" />
+          <Property Name="Mode" Type="Boolean" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -224,6 +226,7 @@
             <EntityTypeMapping TypeName="QLAliGarModel.UserMode">
               <MappingFragment StoreEntitySet="UserMode">
                 <ScalarProperty Name="Mode" ColumnName="Mode" />
+                <ScalarProperty Name="IdMode" ColumnName="IdMode" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
