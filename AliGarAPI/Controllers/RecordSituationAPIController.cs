@@ -42,6 +42,19 @@ namespace AliGarAPI.Controllers
         }
 
         [HttpGet]
+        [Route("api/recordsituation/getchart")]
+        public HttpResponseMessage GetChart()
+        {
+            using (QLAliGarEntities ctx = new QLAliGarEntities())
+            {
+                var list = ctx.RecordSituations.Where(r => r.RecordTime.Day == DateTime.Now.Day);
+
+                
+                return CreateResponse(HttpStatusCode.OK, list);
+            }
+        }
+
+        [HttpGet]
         [Route("api/recordsituation/lastest")]
         public HttpResponseMessage GetLastest()
         {
