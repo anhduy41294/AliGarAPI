@@ -136,7 +136,7 @@ namespace AliGarAPI.Controllers
                     
                     ///Check Usermode
                     var flag = ctx.UserModes.FirstOrDefault();
-                    if ( flag.Mode == true)
+                    if ( flag.Mode == false)
                     {
                         //Manual Mode
                         return CreateResponse(HttpStatusCode.OK, 0);
