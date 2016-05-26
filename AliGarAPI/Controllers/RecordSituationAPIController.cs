@@ -53,6 +53,9 @@ namespace AliGarAPI.Controllers
                 decimal m = list.Max(r => r.IdRecordSituation);
                 RecordSituation recordsituation = ctx.RecordSituations.Where(r => r.IdRecordSituation == m).FirstOrDefault();
 
+                var myHubContext = GlobalHost.ConnectionManager.GetHubContext<MyHub>();
+                myHubContext.Clients.All.notifyGetDone(1);
+
                 return CreateResponse(HttpStatusCode.OK, recordsituation);
             }
         }
@@ -133,7 +136,7 @@ namespace AliGarAPI.Controllers
                         var deviceCover = ctx.Devices.Where(p => p.IdDevice == 2).FirstOrDefault();
 
                         //Check Temperature
-                        if (newRecord.Temperature > profile.TemperatureStandard)
+                        if (newRecord.Temperature > profile.TemperatureStandard - 2)
                         {
                             //Check Device Situation
                             if (deviceCover.DeviceStatus == false)
@@ -150,6 +153,27 @@ namespace AliGarAPI.Controllers
 
                                 //Notify
                                 myHubContext.Clients.All.notifyNewDeviceStatus("2=1");
+
+                                return CreateResponse(HttpStatusCode.OK, 0);
+                            }
+                        }
+                        else
+                        {
+                            //Check Device Situation
+                            if (deviceCover.DeviceStatus == true)
+                            {
+                                //Cover Device is on
+                                RecordAction newAction = new RecordAction();
+                                newAction.IdAction = 4;
+                                newAction.Duration = 0;
+                                newAction.Status = false;
+
+                                ctx.RecordActions.Add(newAction);
+                                deviceCover.DeviceStatus = false;
+                                ctx.SaveChanges();
+
+                                //Notify
+                                myHubContext.Clients.All.notifyNewDeviceStatus("2=0");
 
                                 return CreateResponse(HttpStatusCode.OK, 0);
                             }
@@ -179,9 +203,6 @@ namespace AliGarAPI.Controllers
 
                         return CreateResponse(HttpStatusCode.OK, 0);
                     }
-
-
-                    return CreateResponse(HttpStatusCode.OK, 0);
                 }
                 catch (Exception e)
                 {
