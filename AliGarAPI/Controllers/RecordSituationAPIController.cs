@@ -47,7 +47,7 @@ namespace AliGarAPI.Controllers
         {
             using (QLAliGarEntities ctx = new QLAliGarEntities())
             {
-                var list = ctx.RecordSituations.Where(r => r.RecordTime.Hour == DateTime.Now.Hour && r.RecordTime.Day == DateTime.Now.Day && r.RecordTime.Month == DateTime.Now.Month && r.RecordTime.Year == DateTime.Now.Year).ToList();
+                var list = ctx.RecordSituations.OrderByDescending(p => p.IdRecordSituation).Take(10).ToList();
 
                 
                 return CreateResponse(HttpStatusCode.OK, list);
