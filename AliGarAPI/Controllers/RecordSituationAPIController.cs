@@ -128,6 +128,8 @@ namespace AliGarAPI.Controllers
                     ctx.RecordSituations.Add(newRecord);
                     int affected = ctx.SaveChanges();
 
+                    int ss = 0;
+
                     var myHubContext = GlobalHost.ConnectionManager.GetHubContext<MyHub>();
                     myHubContext.Clients.All.notifyNewSituation(newRecord.Temperature.ToString() + "=" + newRecord.Humidity.ToString());
 
