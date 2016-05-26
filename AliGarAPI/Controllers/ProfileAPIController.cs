@@ -130,7 +130,7 @@ namespace AliGarAPI.Controllers
 
         [HttpPost]
         [Route("api/profile/change")]
-        public HttpResponseMessage Update([FromBody]int id)
+        public HttpResponseMessage Update([FromUri]int id)
         {
             using (QLAliGarEntities ctx = new QLAliGarEntities())
             {
