@@ -132,7 +132,7 @@ namespace AliGarAPI.Controllers
 
                     var myHubContext = GlobalHost.ConnectionManager.GetHubContext<MyHub>();
                     
-                    myHubContext.Clients.All.notifyNewDeviceStatus("0=" + newRecord.Temperature.ToString() + "=" + newRecord.Humidity.ToString());
+                    myHubContext.Clients.All.notifyNewDeviceStatus("0=" + newRecord.Temperature.ToString() + "=" + newRecord.Humidity.ToString()+"=" + newRecord.Light.ToString());
                     
                     ///Check Usermode
                     var flag = ctx.UserModes.FirstOrDefault();
